@@ -49,3 +49,47 @@ public enum Origami {
     }
   }
 }
+
+extension ObservableType where E == CGFloat {
+
+  public func add(_ v: Observable<CGFloat>) -> Observable<CGFloat> {
+
+    return Origami.add(asObservable(), v)
+  }
+
+  public func substruct(_ v: Observable<CGFloat>) -> Observable<CGFloat> {
+    return Origami.substruct(asObservable(), v)
+  }
+
+  public func multiply(_ v1: Observable<CGFloat>) -> Observable<CGFloat> {
+    return Origami.multiply(asObservable(), v1)
+  }
+
+  public func point(y: Observable<CGFloat>) -> Observable<CGPoint> {
+    return Origami.point(x: asObservable(), y: y)
+  }
+
+  public func point(x: Observable<CGFloat>) -> Observable<CGPoint> {
+    return Origami.point(x: x, y: asObservable())
+  }
+
+  public func size(width: Observable<CGFloat>) -> Observable<CGSize> {
+    return Origami.size(width: width, height: asObservable())
+  }
+
+  public func size(height: Observable<CGFloat>) -> Observable<CGSize> {
+    return Origami.size(width: asObservable(), height: height)
+  }
+
+  public func clip(min: Observable<CGFloat>, max: Observable<CGFloat>) -> Observable<CGFloat> {
+    return Origami.clip(value: asObservable(), min: min, max: max)
+  }
+
+  public func translation(start: Observable<CGFloat>, end: Observable<CGFloat>) -> Observable<CGFloat> {
+    return Origami.translation(progress: asObservable(), start: start, end: end)
+  }
+
+  public func progress(start: Observable<CGFloat>, end: Observable<CGFloat>) -> Observable<CGFloat> {
+    return Origami.progress(value: asObservable(), start: start, end: end)
+  }
+}

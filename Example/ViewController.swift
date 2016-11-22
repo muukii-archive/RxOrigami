@@ -24,7 +24,7 @@ class ViewController: UIViewController {
       gesture.translation(in: self.view).y
     }
 
-    Origami.add(x, .just(0.1))
+    Origami.add(x, .just(1000))
       .debug()
       .subscribe()
 
