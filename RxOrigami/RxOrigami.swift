@@ -9,6 +9,42 @@
 import Foundation
 import RxSwift
 
+public enum Curve {
+  case WIP
+}
+
+public protocol Interpolatable {
+
+  static func interpolate(progress: CGFloat, start: Self, end: Self) -> Self
+}
+
+extension CGFloat: Interpolatable {
+
+  public static func interpolate(progress: CGFloat, start: CGFloat, end: CGFloat) -> CGFloat {
+    return ((end - start) * progress) + start
+  }
+}
+
+extension UIColor: Interpolatable {
+
+  public static func interpolate(progress: CGFloat, start: UIColor, end: UIColor) -> Self {
+
+    let f = min(1, max(0, progress))
+
+    guard let c1 = start.cgColor.components,
+      let c2 = end.cgColor.components else {
+        return self.init(white: 0, alpha: 0)
+    }
+
+    let r: CGFloat = CGFloat(c1[0] + (c2[0] - c1[0]) * f)
+    let g: CGFloat = CGFloat(c1[1] + (c2[1] - c1[1]) * f)
+    let b: CGFloat = CGFloat(c1[2] + (c2[2] - c1[2]) * f)
+    let a: CGFloat = CGFloat(c1[3] + (c2[3] - c1[3]) * f)
+
+    return self.init(red:r, green:g, blue:b, alpha:a)
+  }
+}
+
 public enum Origami {
 
   public static func add(_ v1: Observable<CGFloat>, _ v2: Observable<CGFloat>) -> Observable<CGFloat> {
@@ -37,9 +73,9 @@ public enum Origami {
     }
   }
 
-  public static func translation(progress: Observable<CGFloat>, start: Observable<CGFloat>, end: Observable<CGFloat>) -> Observable<CGFloat> {
+  public static func translation<T: Interpolatable>(progress: Observable<CGFloat>, start: Observable<T>, end: Observable<T>) -> Observable<T> {
     return Observable.combineLatest(progress, start, end) { progress, start, end in
-      ((end - start) * progress) + start
+      T.interpolate(progress: progress, start: start, end: end)
     }
   }
 
@@ -47,6 +83,10 @@ public enum Origami {
     return Observable.combineLatest(value, start, end) { value, start, end in
       (value - start) / (end - start)
     }
+  }
+
+  public static func curve(progress: Observable<CGFloat>, curve: Curve) -> Observable<CGFloat> {
+    fatalError("TODO")
   }
 }
 
@@ -85,7 +125,7 @@ extension ObservableType where E == CGFloat {
     return Origami.clip(value: asObservable(), min: min, max: max)
   }
 
-  public func translation(start: Observable<CGFloat>, end: Observable<CGFloat>) -> Observable<CGFloat> {
+  public func translation<T: Interpolatable>(start: Observable<T>, end: Observable<T>) -> Observable<T> {
     return Origami.translation(progress: asObservable(), start: start, end: end)
   }
 

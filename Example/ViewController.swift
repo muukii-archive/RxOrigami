@@ -12,24 +12,71 @@ import RxSwift
 import RxCocoa
 import RxOrigami
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
+
+  // MARK: - Properties
+
+  @IBOutlet weak var scaleBox: UIView!
+  @IBOutlet weak var box: UIView!
+  @IBOutlet weak var maxColorBox: UIView!
+  @IBOutlet weak var minColorBox: UIView!
+  @IBOutlet weak var progressSlider: UISlider!
+  @IBOutlet weak var progressLabel: UILabel!
+  @IBOutlet weak var valueSlider: UISlider!
+  @IBOutlet weak var minLabel: UILabel!
+  @IBOutlet weak var maxLabel: UILabel!
+  let disposeBag = DisposeBag()
+
+  // MARK: - Functions
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
 
-    let pan = UIPanGestureRecognizer()
-    let x = pan.rx.event.map { gesture in
+    let startColor = UIColor(red:0.24, green:0.42, blue:0.58, alpha:1.00)
+    let endColor = UIColor(red:0.93, green:0.72, blue:0.16, alpha:1.00)
 
-      gesture.translation(in: self.view).y
-    }
+    minColorBox.backgroundColor = startColor
+    maxColorBox.backgroundColor = endColor
 
-    Origami.add(x, .just(1000))
+    minLabel.text = String(valueSlider.minimumValue)
+    maxLabel.text = String(valueSlider.maximumValue)
+
+    let progress = valueSlider.rx.value
+      .map(CGFloat.init)
+      .progress(
+        start: Observable.just(valueSlider.minimumValue).map(CGFloat.init),
+        end: Observable.just(valueSlider.maximumValue).map(CGFloat.init)
+      )
+      .map(Float.init)
+      .do(onNext: { progress in
+
+        // Debug presentation
+        self.progressSlider.value = progress
+        self.progressLabel.text = String(progress)
+      })
+      .map(CGFloat.init)
+      .shareReplay(1)
+
+    progress
+      .translation(
+        start: Observable<UIColor>.just(startColor),
+        end: Observable<UIColor>.just(endColor)
+      )
+      .bindNext { color in
+        self.box.backgroundColor = color
+      }
+      .addDisposableTo(disposeBag)
+
+    progress.translation(
+      start: Observable<CGFloat>.just(0.1),
+      end: Observable<CGFloat>.just(1.3)
+      )
       .debug()
-      .subscribe()
-
-    view.addGestureRecognizer(pan)
+      .bindNext { scale in
+        self.scaleBox.transform = CGAffineTransform(scaleX: scale, y: scale)
+      }
+      .addDisposableTo(disposeBag)
   }
-  @IBOutlet weak var box: UIView!
+
 }
 

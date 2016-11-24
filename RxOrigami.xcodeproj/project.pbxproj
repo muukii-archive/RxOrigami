@@ -201,7 +201,7 @@
 					};
 					4B676D101DE439AF00F7D568 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = JX92XL88RZ;
+						DevelopmentTeam = KU2QEJ9K3Z;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -446,7 +446,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = JX92XL88RZ;
+				DEVELOPMENT_TEAM = KU2QEJ9K3Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -464,7 +464,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = JX92XL88RZ;
+				DEVELOPMENT_TEAM = KU2QEJ9K3Z;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
