@@ -32,6 +32,18 @@ final class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    let animation = CABasicAnimation(keyPath: "transform")
+    animation.fromValue = CATransform3DMakeScale(0.5, 1, 1)
+    animation.toValue = CATransform3DMakeScale(1.9, 0.4, 1)
+    animation.duration = 1
+    scaleBox.layer.add(animation, forKey: nil)
+
+//    self.scaleBox.transform = CGAffineTransform(scaleX: 0.5, y: 1)
+//    UIView.animate(withDuration: 1, animations: {
+//      self.scaleBox.transform = CGAffineTransform(scaleX: 1.9, y: 0.4)
+//    })
+    scaleBox.layer.speed = 0
+
     let startColor = UIColor(red:0.24, green:0.42, blue:0.58, alpha:1.00)
     let endColor = UIColor(red:0.93, green:0.72, blue:0.16, alpha:1.00)
 
@@ -64,15 +76,55 @@ final class ViewController: UIViewController {
       }
       .addDisposableTo(disposeBag)
 
+    progress.bindNext { progress in
+      self.scaleBox.layer.timeOffset = progress.native
+    }
+
+    progress
+      .progress(
+        start: Observable<CGFloat>.just(0),
+        end: Observable<CGFloat>.just(0.3)
+      )
+      .transition(
+        start: Observable<CGFloat>.just(0),
+        end: Observable<CGFloat>.just(1)
+      )
+      .bindNext { alpha in
+
+    }
+
     progress.transition(
       start: Observable<CGFloat>.just(0.1),
       end: Observable<CGFloat>.just(1.3)
       )
       .debug()
       .bindNext { scale in
-        self.scaleBox.transform = CGAffineTransform(scaleX: scale, y: scale)
+//        self.scaleBox.transform = CGAffineTransform(scaleX: scale, y: scale)
+
       }
       .addDisposableTo(disposeBag)
+
+
+    let label = UILabel()
+    let start = Variable<CGFloat>(10)
+    let end = Variable<CGFloat>(340)
+    let value = Variable<CGFloat>(18)
+
+    value.asObservable()
+      .progress(
+        start: start.asObservable(),
+        end: end.asObservable()
+      )
+      .transition(start: 0, end: 1)
+      .bindNext { alpha in
+        label.alpha = alpha
+    }
+
+
+
+
+
+
   }
 
 }
