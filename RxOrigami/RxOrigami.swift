@@ -158,4 +158,8 @@ extension ObservableType where E : CGFloatConvertible {
   public func absoluteValue() -> Observable<CGFloat> {
     return Observable<CGFloat>.absoluteValue(value: asObservable())
   }
+
+  public func asTimeOffset() -> Observable<CFTimeInterval> {
+    return map { $0.toCGFloat().native }
+  }
 }

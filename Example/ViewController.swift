@@ -103,29 +103,6 @@ final class ViewController: UIViewController {
 
       }
       .addDisposableTo(disposeBag)
-
-
-    let label = UILabel()
-    let start = Variable<CGFloat>(10)
-    let end = Variable<CGFloat>(340)
-    let value = Variable<CGFloat>(18)
-
-    value.asObservable()
-      .progress(
-        start: start.asObservable(),
-        end: end.asObservable()
-      )
-      .transition(start: 0, end: 1)
-      .bindNext { alpha in
-        label.alpha = alpha
-    }
-
-
-
-
-
-
   }
-
 }
 
