@@ -20,6 +20,8 @@
 		4B676D241DE43A5F00F7D568 /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B676D071DE42DCA00F7D568 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4B676D251DE43A5F00F7D568 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B676D081DE42DCA00F7D568 /* RxSwift.framework */; };
 		4B676D261DE43A5F00F7D568 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B676D081DE42DCA00F7D568 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4BCC50401DE7C7820002A045 /* Interpolatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCC503F1DE7C7820002A045 /* Interpolatable.swift */; };
+		4BCC50421DE7C7CB0002A045 /* NumberType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCC50411DE7C7CB0002A045 /* NumberType.swift */; };
 		4BEFEF471DE43B8400A11ABC /* RxOrigami.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B676CFC1DE4292300F7D568 /* RxOrigami.framework */; };
 		4BEFEF481DE43B8400A11ABC /* RxOrigami.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4B676CFC1DE4292300F7D568 /* RxOrigami.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -64,6 +66,8 @@
 		4B676D1A1DE439AF00F7D568 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B676D1D1DE439AF00F7D568 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B676D1F1DE439AF00F7D568 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4BCC503F1DE7C7820002A045 /* Interpolatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpolatable.swift; sourceTree = "<group>"; };
+		4BCC50411DE7C7CB0002A045 /* NumberType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +118,9 @@
 			children = (
 				4B676CFF1DE4292300F7D568 /* RxOrigami.h */,
 				4B676D001DE4292300F7D568 /* Info.plist */,
+				4BCC50411DE7C7CB0002A045 /* NumberType.swift */,
 				4B676D0B1DE42DF200F7D568 /* RxOrigami.swift */,
+				4BCC503F1DE7C7820002A045 /* Interpolatable.swift */,
 			);
 			path = RxOrigami;
 			sourceTree = "<group>";
@@ -251,6 +257,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B676D0C1DE42DF200F7D568 /* RxOrigami.swift in Sources */,
+				4BCC50421DE7C7CB0002A045 /* NumberType.swift in Sources */,
+				4BCC50401DE7C7820002A045 /* Interpolatable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

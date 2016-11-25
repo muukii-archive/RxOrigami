@@ -42,23 +42,20 @@ final class ViewController: UIViewController {
     maxLabel.text = String(valueSlider.maximumValue)
 
     let progress = valueSlider.rx.value
-      .map(CGFloat.init)
       .progress(
-        start: Observable.just(valueSlider.minimumValue).map(CGFloat.init),
-        end: Observable.just(valueSlider.maximumValue).map(CGFloat.init)
+        start: Observable.just(valueSlider.minimumValue),
+        end: Observable.just(valueSlider.maximumValue)
       )
-      .map(Float.init)
       .do(onNext: { progress in
 
         // Debug presentation
-        self.progressSlider.value = progress
-        self.progressLabel.text = String(progress)
+        self.progressSlider.value = Float(progress)
+        self.progressLabel.text = String(Float(progress))
       })
-      .map(CGFloat.init)
       .shareReplay(1)
 
     progress
-      .translation(
+      .transition(
         start: Observable<UIColor>.just(startColor),
         end: Observable<UIColor>.just(endColor)
       )
@@ -67,7 +64,7 @@ final class ViewController: UIViewController {
       }
       .addDisposableTo(disposeBag)
 
-    progress.translation(
+    progress.transition(
       start: Observable<CGFloat>.just(0.1),
       end: Observable<CGFloat>.just(1.3)
       )
