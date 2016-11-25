@@ -160,6 +160,6 @@ extension ObservableType where E : CGFloatConvertible {
   }
 
   public func asTimeOffset() -> Observable<CFTimeInterval> {
-    return map { $0.toCGFloat().native }
+    return map { CFTimeInterval($0.toCGFloat().native) }
   }
 }

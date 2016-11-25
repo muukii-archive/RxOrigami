@@ -76,8 +76,10 @@ final class ViewController: UIViewController {
       }
       .addDisposableTo(disposeBag)
 
-    progress.bindNext { progress in
-      self.scaleBox.layer.timeOffset = progress.native
+    progress
+      .asTimeOffset()
+      .bindNext { time in
+      self.scaleBox.layer.timeOffset = time
     }
 
     progress
