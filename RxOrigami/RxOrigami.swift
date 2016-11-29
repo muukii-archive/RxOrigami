@@ -26,6 +26,22 @@ public enum Curve {
   case WIP
 }
 
+public func clip<T: CGFloatConvertible>(value: T, min: T, max: T) -> CGFloat {
+  return Swift.max(Swift.min(value.toCGFloat(), max.toCGFloat()),min.toCGFloat())
+}
+
+public func progress<T: CGFloatConvertible>(value: T, start: T, end: T) -> CGFloat {
+  return (value.toCGFloat() - start.toCGFloat()) / (end.toCGFloat() - start.toCGFloat())
+}
+
+public func reverseProgress<T: CGFloatConvertible>(progress: T) -> CGFloat {
+  return 1 - progress.toCGFloat()
+}
+
+public func transition<T: CGFloatConvertible, I: Interpolatable>(progress: T, start: I, end: I) -> I {
+  return I.interpolate(progress: progress.toCGFloat(), start: start, end: end)
+}
+
 extension Observable {
 
   public static func add<V1: ObservableType, V2: ObservableType>(_ v1: V1, _ v2: V2) -> Observable<CGFloat> where V1.E == V2.E, V1.E : CGFloatConvertible {
@@ -50,7 +66,7 @@ extension Observable {
 
   public static func clip<T: CGFloatConvertible>(value: Observable<T>, min: Observable<T>, max: Observable<T>) -> Observable<CGFloat> {
     return Observable<CGFloat>.combineLatest(value, min, max) { value, min, max in
-      Swift.max(Swift.min(value.toCGFloat(), max.toCGFloat()),min.toCGFloat())
+      RxOrigami.clip(value: value, min: min, max: max)
     }
   }
 
@@ -64,13 +80,13 @@ extension Observable {
   public static func transition<T: ObservableType, I: ObservableType>(progress: T, start: I, end: I) -> Observable<I.E> where I.E : Interpolatable, T.E : CGFloatConvertible {
 
     return Observable<I.E>.combineLatest(progress, start, end) { _progress, _start, _end in
-      I.E.interpolate(progress: _progress.toCGFloat(), start: _start, end: _end)
+      RxOrigami.transition(progress: _progress, start: _start, end: _end)
     }
   }
 
   public static func progress<T: CGFloatConvertible>(value: Observable<T>, start: Observable<T>, end: Observable<T>) -> Observable<CGFloat> {
     return Observable<CGFloat>.combineLatest(value, start, end) { value, start, end in
-      (value.toCGFloat() - start.toCGFloat()) / (end.toCGFloat() - start.toCGFloat())
+      RxOrigami.progress(value: value, start: start, end: end)
     }
   }
 
@@ -80,7 +96,7 @@ extension Observable {
    Useful to sync an animation that is reversed (ex: a photo that fades in as another fades out).
    */
   public static func reverseProgress<T: CGFloatConvertible>(progress: Observable<T>) -> Observable<CGFloat> {
-    return progress.map { 1 - $0.toCGFloat() }
+    return progress.map { RxOrigami.reverseProgress(progress: $0) }
   }
 
   public static func absoluteValue<T: CGFloatConvertible>(value: Observable<T>) -> Observable<CGFloat> {
